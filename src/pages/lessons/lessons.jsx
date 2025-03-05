@@ -92,9 +92,11 @@ export default function Lessons() {
                     <p className="text-sm italic text-gray-800">
                       This lesson is not yet available
                     </p>
+                  ) : role === "Student" && lesson.isOpen ? (
+                    ""
                   ) : (
                     <button
-                      className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer"
+                      className="px-4 py-2 bg-violet-700 text-white rounded cursor-pointer"
                       onClick={() => toggleLock(lesson.id, lesson.isOpen)}
                     >
                       {lesson.isOpen ? <FaLock /> : <FaUnlock />}

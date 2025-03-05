@@ -70,7 +70,7 @@ export default function Teachers() {
               </div>
             </div>
             <button
-              className="btn btn-primary flex items-center gap-2"
+              className="btn bg-violet-700 text-white hover:bg-violet-800 flex items-center gap-2"
               onClick={() =>
                 document.getElementById("add_teacher_modal").showModal()
               }

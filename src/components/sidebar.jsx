@@ -78,11 +78,11 @@ export default function Sidebar() {
   const items = allItems[userRole] || [];
 
   return (
-    <aside className="fixed h-screen w-64 bg-primary text-white py-4 border-r-2">
+    <aside className="fixed h-screen w-64 bg-violet-800 text-white py-4 border-r-2">
       <div className="h-full flex flex-col gap-6">
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center border-b pb-2 border-gray-400">
           <img src="/logo.png" alt="" className="w-10 h-10" />
-          <div>
+          <div className="">
             <h6 className="font-bold text-sm">Malasiqui Adventist School</h6>
             <p className="text-xs">Learning Management System</p>
           </div>

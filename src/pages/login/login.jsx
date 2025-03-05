@@ -58,7 +58,7 @@ export default function Login() {
       </div>
 
       {/* Right Column - Login Form */}
-      <div className="col-span-2 flex items-center justify-center bg-primary">
+      <div className="col-span-2 flex items-center justify-center bg-violet-800">
         <div className="card w-96 bg-white shadow-xl p-6">
           <h2 className="text-2xl font-bold text-center">Login</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-4">
@@ -105,7 +105,10 @@ export default function Login() {
             </div>
 
             {/* Submit Button */}
-            <button type="submit" className="btn btn-primary w-full">
+            <button
+              type="submit"
+              className="btn bg-violet-600 hover:bg-violet-700 text-white w-full"
+            >
               Login
             </button>
           </form>

@@ -148,7 +148,7 @@ export default function Videos() {
 
                     {role === "Student" ? (
                       <button
-                        className="mt-4 bg-primary text-white py-2 px-4 rounded flex items-center cursor-pointer"
+                        className="mt-4 bg-violet-700 text-white py-2 px-4 rounded flex items-center cursor-pointer"
                         disabled={!video.isOpen}
                         onClick={() => {
                           if (!video.isOpen) {
@@ -165,7 +165,7 @@ export default function Videos() {
                           if (role === "Student") return;
                           toggleLock(video.id);
                         }}
-                        className="mt-4 bg-primary text-white py-2 px-4 rounded flex items-center cursor-pointer"
+                        className="mt-4 bg-violet-700 text-white py-2 px-4 rounded flex items-center cursor-pointer"
                       >
                         {video.isOpen ? (
                           <FaLock className="mr-2" />
