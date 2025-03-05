@@ -88,12 +88,12 @@ export default function Lessons() {
                   <p className="text-gray-600">{lesson.description}</p>
                 </div>
                 <div className="ml-4">
-                  {role === "Student" ? (
+                  {role === "Student" && lesson.isOpen ? (
+                    ""
+                  ) : role === "Student" ? (
                     <p className="text-sm italic text-gray-800">
                       This lesson is not yet available
                     </p>
-                  ) : role === "Student" && lesson.isOpen ? (
-                    ""
                   ) : (
                     <button
                       className="px-4 py-2 bg-violet-700 text-white rounded cursor-pointer"

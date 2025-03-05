@@ -14,6 +14,7 @@ export default function Lesson() {
   const navigate = useNavigate();
   const [lesson, setLesson] = useState(null);
   const [loading, setLoading] = useState(true);
+  const role = localStorage.getItem("role");
 
   useEffect(() => {
     const fetchLesson = async () => {
@@ -57,14 +58,16 @@ export default function Lesson() {
             <>
               <div>{displayContent()}</div>
               <div className="flex flex-col justify-end">
-                <button
-                  className="btn btn-primary mt-4"
-                  onClick={() =>
-                    document.getElementById("completion_modal").showModal()
-                  }
-                >
-                  Mark as Done
-                </button>
+                {role === "Student" && (
+                  <button
+                    className="btn btn-primary mt-4"
+                    onClick={() =>
+                      document.getElementById("completion_modal").showModal()
+                    }
+                  >
+                    Mark as Done
+                  </button>
+                )}
               </div>
             </>
           ) : (

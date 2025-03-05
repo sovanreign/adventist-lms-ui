@@ -141,9 +141,9 @@ function StudentProfile({ student }) {
       <p>
         <strong>Bio:</strong> {student?.bio || "N/A"}
       </p>
-      <p>
+      {/* <p>
         <strong>Points:</strong> {student?.points}
-      </p>
+      </p> */}
     </div>
   );
 }
