@@ -6,3 +6,5 @@ export const STUDENTS_URL = `${BASE_URL}/api/students`;
 export const USERS_URL = `${BASE_URL}/api/users`;
 export const VIDEOS_URL = `${BASE_URL}/api/videos`;
 export const LESSONS_URL = `${BASE_URL}/api/lessons`;
+export const ACTIVITIES_URL = `${BASE_URL}/api/activities`;
+export const RESULT_URL = `${BASE_URL}/api/results`;

@@ -6,6 +6,8 @@ import Navbar from "../../components/navbar";
 import Sidebar from "../../components/sidebar";
 import { LESSONS_URL } from "../../lib/constant";
 import Lesson1 from "./materials/lesson1";
+import Lesson2 from "./materials/lesson2";
+import Lesson3 from "./materials/lesson3";
 
 export default function Lesson() {
   const { id } = useParams();
@@ -31,6 +33,10 @@ export default function Lesson() {
     switch (lesson.content) {
       case "Lesson1":
         return <Lesson1 />;
+      case "Lesson2":
+        return <Lesson2 />;
+      case "Lesson3":
+        return <Lesson3 />;
       default:
         return <p>No content available</p>;
     }

@@ -16,8 +16,39 @@ export default function Sidebar() {
   const location = useLocation();
 
   const allItems = {
-    Student: [],
-    Teacher: [],
+    Student: [
+      { name: "Home", icon: FaHome, path: "/home" },
+      { name: "Lessons", icon: FaBook, path: "/lessons" },
+      { name: "Videos", icon: FaVideo, path: "/videos" },
+      { name: "Activities", icon: FaTasks, path: "/activities" },
+
+      {
+        name: "Logout",
+        icon: FaDoorOpen,
+        path: "/logout",
+        onClick: () => {
+          localStorage.removeItem("access_token");
+          navigate("/login");
+        },
+      },
+    ],
+    Teacher: [
+      { name: "Home", icon: FaHome, path: "/home" },
+      { name: "My Students", icon: FaUserGraduate, path: "/my-students" },
+      { name: "Lessons", icon: FaBook, path: "/lessons" },
+      { name: "Videos", icon: FaVideo, path: "/videos" },
+      { name: "Activities", icon: FaTasks, path: "/activities" },
+
+      {
+        name: "Logout",
+        icon: FaDoorOpen,
+        path: "/logout",
+        onClick: () => {
+          localStorage.removeItem("access_token");
+          navigate("/login");
+        },
+      },
+    ],
     Admin: [
       { name: "Home", icon: FaHome, path: "/home" },
       { name: "Teachers", icon: FaChalkboardTeacher, path: "/teachers" },

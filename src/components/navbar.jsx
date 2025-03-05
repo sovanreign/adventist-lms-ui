@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 export default function Navbar({ title }) {
+  const navigate = useNavigate();
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="flex-none">
@@ -24,8 +27,11 @@ export default function Navbar({ title }) {
       </div>
       <div className="flex-none mr-2">
         <div className="avatar">
-          <div className="w-10 rounded-full cursor-pointer">
-            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+          <div
+            className="w-10 rounded-full cursor-pointer"
+            onClick={() => navigate("/profile")}
+          >
+            <img src="/profile-m.png" />
           </div>
         </div>
       </div>

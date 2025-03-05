@@ -7,6 +7,7 @@ import {
   FaSearch,
   FaUnlock,
   FaEllipsisH,
+  FaPlay,
 } from "react-icons/fa";
 import AddVideo from "./components/add-video";
 import axios from "axios";
@@ -20,6 +21,7 @@ export default function Videos() {
   const [filteredVideos, setFilteredVideos] = useState([]);
   const [openMenu, setOpenMenu] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const role = localStorage.getItem("role");
 
   const fetchVideos = async () => {
     try {
@@ -93,14 +95,18 @@ export default function Videos() {
                 <FaSearch className="absolute left-3 top-3 text-gray-500" />
               </div>
             </div>
-            <button
-              className="btn btn-primary flex items-center gap-2"
-              onClick={() =>
-                document.getElementById("add_video_modal").showModal()
-              }
-            >
-              <FaPlus /> Add Video Lesson
-            </button>
+            {role === "Student" ? (
+              ""
+            ) : (
+              <button
+                className="btn btn-primary flex items-center gap-2"
+                onClick={() =>
+                  document.getElementById("add_video_modal").showModal()
+                }
+              >
+                <FaPlus /> Add Video Lesson
+              </button>
+            )}
           </div>
 
           {loading ? (
@@ -139,26 +145,51 @@ export default function Videos() {
                     )}
                     <h2 className="font-bold text-lg mt-4">{video.title}</h2>
                     <p className="text-gray-600">{video.description}</p>
-                    <button
-                      onClick={() => toggleLock(video.id)}
-                      className="mt-4 bg-primary text-white py-2 px-4 rounded flex items-center cursor-pointer"
-                    >
-                      {video.isOpen ? (
-                        <FaLock className="mr-2" />
-                      ) : (
-                        <FaUnlock className="mr-2" />
-                      )}
-                      {video.isOpen ? "Unlock" : "Lock"}
-                    </button>
-                    <div className="absolute top-2 right-2">
+
+                    {role === "Student" ? (
                       <button
-                        className="btn btn-ghost"
-                        onClick={() =>
-                          setOpenMenu(openMenu === index ? null : index)
-                        }
+                        className="mt-4 bg-primary text-white py-2 px-4 rounded flex items-center cursor-pointer"
+                        disabled={!video.isOpen}
+                        onClick={() => {
+                          if (!video.isOpen) {
+                            return;
+                          }
+                          setSelectedVideo(video);
+                        }}
                       >
-                        <FaEllipsisH />
+                        <FaPlay className="mr-2" /> Watch
                       </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          if (role === "Student") return;
+                          toggleLock(video.id);
+                        }}
+                        className="mt-4 bg-primary text-white py-2 px-4 rounded flex items-center cursor-pointer"
+                      >
+                        {video.isOpen ? (
+                          <FaLock className="mr-2" />
+                        ) : (
+                          <FaUnlock className="mr-2" />
+                        )}
+                        {video.isOpen ? "Unlock" : "Lock"}
+                      </button>
+                    )}
+
+                    <div className="absolute top-2 right-2">
+                      {role === "Student" ? (
+                        ""
+                      ) : (
+                        <button
+                          className="btn btn-ghost"
+                          onClick={() =>
+                            setOpenMenu(openMenu === index ? null : index)
+                          }
+                        >
+                          <FaEllipsisH />
+                        </button>
+                      )}
+
                       {openMenu === index && (
                         <div className="absolute right-0 mt-2 w-32 bg-white shadow-md rounded-md z-10">
                           <button

@@ -109,7 +109,11 @@ export default function Teachers() {
                           <div className="avatar">
                             <div className="mask mask-squircle h-12 w-12">
                               <img
-                                src={teacher.avatar || "/profile-w.png"}
+                                src={
+                                  teacher.user.gender === "Male"
+                                    ? "/profile-m.png"
+                                    : "/profile-w.png"
+                                }
                                 alt="Avatar"
                               />
                             </div>
