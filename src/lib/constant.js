@@ -1,4 +1,5 @@
-export const BASE_URL = "http://localhost:8000";
+// export const BASE_URL = "http://localhost:8000";
+export const BASE_URL = "https://adventist-lms-api.onrender.com";
 
 export const LOGIN_URL = `${BASE_URL}/api/auth/login`;
 export const TEACHERS_URL = `${BASE_URL}/api/teachers`;
