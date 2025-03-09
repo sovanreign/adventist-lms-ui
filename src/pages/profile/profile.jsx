@@ -53,9 +53,9 @@ export default function Profile() {
                       <p className="text-lg">{userData.role}</p>
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <button className="btn">Edit</button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
