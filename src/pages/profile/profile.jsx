@@ -1,149 +1,157 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { USERS_URL } from "../../lib/constant";
 import Sidebar from "../../components/sidebar";
 import Navbar from "../../components/navbar";
+import { USERS_URL } from "../../lib/constant";
 
 export default function Profile() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [achievements, setAchievements] = useState([]);
+  const role = localStorage.getItem("role");
+  const id = localStorage.getItem("sub");
 
-  // Get user ID and role from localStorage
-  const userId = localStorage.getItem("sub");
-  const userRole = localStorage.getItem("role");
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axios.get(`${USERS_URL}/${id}`);
+      setUserData(response.data);
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
 
   useEffect(() => {
-    async function fetchUser() {
-      try {
-        const response = await axios.get(`${USERS_URL}/${userId}`);
-        setUser(response.data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchUser();
-  }, [userId]);
+    fetchUserProfile();
+  }, []);
 
-  if (loading) return <div className="text-center p-4">Loading...</div>;
-  if (error)
-    return (
-      <div className="text-center text-red-500 p-4">Error: {error.message}</div>
-    );
-
-  // Determine profile image (Admin has no profile image field)
-  const profileImage =
-    userRole === "Teacher"
-      ? user?.teacher?.profileUrl
-        ? user?.teacher?.profileUrl
-        : user?.gender === "Male"
-        ? "/profile-m.png"
-        : "/profile-w.png"
-      : userRole === "Student"
-      ? user?.student?.avatar
-        ? user?.student?.avatar
-        : user?.gender === "Male"
-        ? "/profile-m.png"
-        : "/profile-w.png"
-      : user?.gender === "Male"
-      ? "/profile-m.png"
-      : "/profile-w.png";
+  if (!userData) {
+    return <p>Loading profile...</p>;
+  }
 
   return (
     <main className="flex">
       <Sidebar />
       <div className="ml-64 w-full">
         <Navbar title="Profile" />
-        <div className="p-6">
-          {/* Profile Image Section */}
-          <div className="flex flex-col items-center mb-6">
-            <img
-              src={profileImage || "https://via.placeholder.com/150"} // Default image
-              alt="Profile"
-              className="w-32 h-32 rounded-full object-cover border-4 border-gray-300 shadow-lg"
-            />
-            <h1 className="text-2xl font-bold mt-2">
-              {user?.firstName} {user?.middleName ? user.middleName : ""}{" "}
-              {user?.lastName}
-            </h1>
-            <p className="text-gray-600">{userRole}</p>
-          </div>
+        <div className="p-8">
+          <div className="my-10">
+            <div className="card w-full bg-base-100 card-xs shadow-sm">
+              <div className="card-body p-4">
+                <div className="flex justify-between">
+                  <div className="flex gap-4 items-center">
+                    <div className="avatar">
+                      <div className="w-32 rounded-full">
+                        <img
+                          src={userData.avatar || "/profile-m.png"}
+                          alt="Profile"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <h1 className="text-xl font-bold">
+                        {userData.firstName} {userData.lastName}
+                      </h1>
+                      <p className="text-lg">{userData.role}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <button className="btn">Edit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-          {/* Basic Info */}
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <p>
-              <strong>Username:</strong> {user?.username}
-            </p>
-            <p>
-              <strong>Age:</strong> {user?.age || "N/A"}
-            </p>
-            <p>
-              <strong>Gender:</strong> {user?.gender}
-            </p>
-            <p>
-              <strong>Address:</strong> {user?.address || "N/A"}
-            </p>
-          </div>
+            <div className="mt-8 card w-full bg-base-100 card-xs shadow-sm">
+              <div className="card-body p-4">
+                <h2 className="text-lg font-semibold">Personal Information</h2>
+                <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {role !== "Student" && (
+                    <div className="p-2">
+                      <p className="text-sm font-semibold uppercase text-gray-600">
+                        Email
+                      </p>
+                      <p className="text-md font-medium text-gray-900">
+                        {role == "Admin"
+                          ? userData.admin.email
+                          : role == "Teacher"
+                          ? userData.teacher.email
+                          : ""}
+                      </p>
+                    </div>
+                  )}
 
-          {/* Role-Specific Details */}
-          {userRole === "Admin" && <AdminProfile admin={user?.admin} />}
-          {userRole === "Teacher" && <TeacherProfile teacher={user?.teacher} />}
-          {userRole === "Student" && <StudentProfile student={user?.student} />}
+                  <div className="p-2">
+                    <p className="text-sm font-semibold uppercase text-gray-600">
+                      Age
+                    </p>
+                    <p className="text-md font-medium text-gray-900">
+                      {userData.age}
+                    </p>
+                  </div>
+                  <div className="p-2">
+                    <p className="text-sm font-semibold uppercase text-gray-600">
+                      Gender
+                    </p>
+                    <p className="text-md font-medium text-gray-900">
+                      {userData.gender}
+                    </p>
+                  </div>
+                  <div className="p-2">
+                    <p className="text-sm font-semibold uppercase text-gray-600">
+                      Address
+                    </p>
+                    <p className="text-md font-medium text-gray-900">
+                      {userData.address}
+                    </p>
+                  </div>
+                  <div className="p-2">
+                    <p className="text-sm font-semibold uppercase text-gray-600">
+                      {userData.role === "Student"
+                        ? "Student ID"
+                        : "Employee ID"}
+                    </p>
+                    <p className="text-md font-medium text-gray-900">
+                      {role == "Student"
+                        ? userData.student.studentId
+                        : role == "Teacher"
+                        ? userData.teacher.employeeId
+                        : userData.admin.employeeId}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {role === "Student" && (
+              <div className="mt-8 card w-full bg-base-100 card-xs shadow-sm">
+                <div className="card-body p-4">
+                  <h2 className="text-lg font-semibold">Achievements</h2>
+                  <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {achievements.length > 0 ? (
+                      achievements.map((achievement, index) => (
+                        <div
+                          key={index}
+                          className="flex flex-col items-center p-2"
+                        >
+                          <img
+                            src={achievement.image}
+                            alt={achievement.name}
+                            className="w-20 h-20 object-cover"
+                          />
+                          <p className="text-md font-medium text-gray-900 mt-2">
+                            {achievement.name}
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <p>No achievements available</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </main>
-  );
-}
-
-// Admin Profile Component
-function AdminProfile({ admin }) {
-  return (
-    <div className="mt-6 bg-blue-100 p-4 rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold">Admin Details</h2>
-      <p>
-        <strong>Email:</strong> {admin?.email}
-      </p>
-      <p>
-        <strong>Employee ID:</strong> {admin?.employeeId}
-      </p>
-    </div>
-  );
-}
-
-// Teacher Profile Component
-function TeacherProfile({ teacher }) {
-  return (
-    <div className="mt-6 bg-green-100 p-4 rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold">Teacher Details</h2>
-      <p>
-        <strong>Email:</strong> {teacher?.email}
-      </p>
-      <p>
-        <strong>Employee ID:</strong> {teacher?.employeeId}
-      </p>
-      <p>
-        <strong>Bio:</strong> {teacher?.bio || "N/A"}
-      </p>
-    </div>
-  );
-}
-
-// Student Profile Component
-function StudentProfile({ student }) {
-  return (
-    <div className="mt-6 bg-yellow-100 p-4 rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold">Student Details</h2>
-      <p>
-        <strong>Student ID:</strong> {student?.studentId}
-      </p>
-      <p>
-        <strong>Bio:</strong> {student?.bio || "N/A"}
-      </p>
-      {/* <p>
-        <strong>Points:</strong> {student?.points}
-      </p> */}
-    </div>
   );
 }
