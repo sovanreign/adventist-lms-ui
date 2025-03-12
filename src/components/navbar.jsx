@@ -5,7 +5,7 @@ export default function Navbar({ title }) {
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="flex-none">
-        {/* <button className="btn btn-square btn-ghost">
+        {/* <button className="lg:hidden btn btn-square btn-ghost">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
